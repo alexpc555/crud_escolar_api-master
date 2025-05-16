@@ -47,3 +47,5 @@ urlpatterns = [
     #Logout
         path('logout/', auth.Logout.as_view())
 ]
+  
+  

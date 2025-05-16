@@ -102,7 +102,7 @@ class MaestrosView(generics.CreateAPIView):
     
     #Se agrega edicion y eliminar maestros
 class MaestrosViewEdit(generics.CreateAPIView):
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAuthenticated,) 
     def put(self, request, *args, **kwargs):
         # iduser=request.data["id"]
         maestro = get_object_or_404(Maestros, id=request.data["id"])

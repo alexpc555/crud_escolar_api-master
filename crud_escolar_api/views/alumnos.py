@@ -115,7 +115,7 @@ class AlumnosViewEdit(generics.CreateAPIView):
         temp.first_name = request.data["first_name"]
         temp.last_name = request.data["last_name"]
         temp.save()
-        user = AlumnoSerializer(alumno, many=False).data
+        user = AlumnoSerializer(alumno, many=False).data 
 
         return Response(user,200)
     

@@ -123,7 +123,7 @@ class AdminsViewEdit(generics.CreateAPIView):
  
         return Response({'admins': total_admins, 'maestros': total_maestros, 'alumnos':total_alumnos }, 200)
     
-    #Editar administrador
+    #Editar administrador 
     def put(self, request, *args, **kwargs):
         # iduser=request.data["id"]
         admin = get_object_or_404(Administradores, id=request.data["id"])
