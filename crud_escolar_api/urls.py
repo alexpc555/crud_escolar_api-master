@@ -33,8 +33,10 @@ urlpatterns = [
         path('admins-edit/', users.AdminsViewEdit.as_view()),
     #Create Alumno
         path('alumnos/', alumnos.AlumnosView.as_view()),
-     #Create Eventos
+    #Create Eventos
         path('eventos/', eventos.EventosView.as_view()),
+    #Ver eventos
+        path('lista-eventos/', eventos.EventosAll.as_view()),
     #Alumno Data
         path('lista-alumnos/', alumnos.AlumnosAll.as_view()),
     #Edit Alumno

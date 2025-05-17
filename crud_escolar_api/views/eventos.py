@@ -31,6 +31,22 @@ import random
 import json
 
 
+class EventosAll(generics.CreateAPIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get(self, request, *args, **kwargs):
+        eventos = Evento.objects.all().order_by("fecha_de_realizacion")
+        eventos_serializados = EventoSerializer(eventos, many=True).data
+
+        if not eventos_serializados:
+            return Response({}, status=400)
+
+        # Si eventualmente hay campos JSON, puedes deserializarlos aquí.
+        # Por ejemplo: evento["dias_json"] = json.loads(evento["dias_json"])
+
+        return Response(eventos_serializados, status=200)
+    
+
 class EventosView(generics.CreateAPIView):
     def get(self, request, *args, **kwargs):
         return Response({"message": "GET no implementado"}, status=status.HTTP_501_NOT_IMPLEMENTED)
@@ -56,3 +72,4 @@ class EventosView(generics.CreateAPIView):
             return Response({"Eventos_created_id": nuevo_evento.id}, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
