@@ -66,7 +66,7 @@ class Evento(models.Model):
     hora_inicio = models.TimeField()
     hora_fin = models.TimeField()
     lugar = models.CharField(max_length=100)
-    publico_objetivo = models.JSONField()  # Guardaremos un array de strings
+    publico_objetivo = models.CharField(max_length=100)
     programa_educativo = models.CharField(max_length=50)
     responsable_del_evento = models.CharField(max_length=100)
     descripcion_breve = models.TextField(max_length=300)
