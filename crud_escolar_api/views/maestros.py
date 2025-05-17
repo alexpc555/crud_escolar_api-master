@@ -100,6 +100,11 @@ class MaestrosView(generics.CreateAPIView):
 
         return Response(user.errors, status=status.HTTP_400_BAD_REQUEST)
     
+
+
+
+    #esto despues 
+    
     #Se agrega edicion y eliminar maestros
 class MaestrosViewEdit(generics.CreateAPIView):
     permission_classes = (permissions.IsAuthenticated,) 

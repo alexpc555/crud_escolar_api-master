@@ -55,3 +55,25 @@ class Maestros(models.Model):
 
     def __str__(self):
         return "Perfil del maestro "+self.first_name+" "+self.last_name
+    
+from django.db import models
+
+class Evento(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    titulo = models.CharField(max_length=100)
+    tipo_de_evento = models.CharField(max_length=50)
+    fecha_de_realizacion = models.DateField()
+    fecha_inicio = models.DateField(null=True, blank=True)
+    hora_inicio = models.TimeField()
+    hora_fin = models.TimeField()
+    lugar = models.CharField(max_length=100)
+    publico_objetivo = models.JSONField()  # Guardaremos un array de strings
+    programa_educativo = models.CharField(max_length=50)
+    responsable_del_evento = models.CharField(max_length=100)
+    descripcion_breve = models.TextField(max_length=300)
+    cupo_max = models.PositiveIntegerField()
+
+    def __str__(self):
+        return self.titulo
+
+
