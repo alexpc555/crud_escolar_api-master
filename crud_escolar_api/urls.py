@@ -20,6 +20,7 @@ from crud_escolar_api.views import users
 from crud_escolar_api.views import alumnos
 from crud_escolar_api.views import maestros
 from crud_escolar_api.views import auth
+from crud_escolar_api.views import eventos
 
 urlpatterns = [
     #Version
@@ -32,6 +33,8 @@ urlpatterns = [
         path('admins-edit/', users.AdminsViewEdit.as_view()),
     #Create Alumno
         path('alumnos/', alumnos.AlumnosView.as_view()),
+     #Create Eventos
+        path('eventos/', eventos.EventosView.as_view()),
     #Alumno Data
         path('lista-alumnos/', alumnos.AlumnosAll.as_view()),
     #Edit Alumno

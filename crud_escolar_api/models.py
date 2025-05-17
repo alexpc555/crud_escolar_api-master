@@ -63,7 +63,6 @@ class Evento(models.Model):
     titulo = models.CharField(max_length=100)
     tipo_de_evento = models.CharField(max_length=50)
     fecha_de_realizacion = models.DateField()
-    fecha_inicio = models.DateField(null=True, blank=True)
     hora_inicio = models.TimeField()
     hora_fin = models.TimeField()
     lugar = models.CharField(max_length=100)
