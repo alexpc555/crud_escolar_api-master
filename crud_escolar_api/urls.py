@@ -35,6 +35,8 @@ urlpatterns = [
         path('alumnos/', alumnos.AlumnosView.as_view()),
     #Create Eventos
         path('eventos/', eventos.EventosView.as_view()),
+    #editar Eventos
+        path('eventos-edit/', eventos.EventosViewEdit.as_view()),
     #Ver eventos
         path('lista-eventos/', eventos.EventosAll.as_view()),
     #Alumno Data

@@ -73,3 +73,36 @@ class EventosView(generics.CreateAPIView):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class EventosViewEdit(generics.CreateAPIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    # Método PUT para editar un evento existente
+    def put(self, request, *args, **kwargs):
+        evento = get_object_or_404(Evento, id=request.data["id"])
+
+        evento.titulo = request.data["titulo"]
+        evento.tipo_de_evento = request.data["tipo_de_evento"]
+        evento.fecha_de_realizacion = request.data["fecha_de_realizacion"]
+        evento.hora_inicio = request.data["hora_inicio"]
+        evento.hora_fin = request.data["hora_fin"]
+        evento.lugar = request.data["lugar"]
+        evento.publico_objetivo = request.data["publico_objetivo"]
+        evento.programa_educativo = request.data["programa_educativo"]
+        evento.responsable_del_evento = request.data["responsable_del_evento"]
+        evento.descripcion_breve = request.data["descripcion_breve"]
+        evento.cupo_max = request.data["cupo_max"]
+
+        evento.save()
+
+        # Devolver el evento actualizado serializado
+        evento_serializado = EventoSerializer(evento, many=False).data
+        return Response(evento_serializado, status=200)
+
+    # Método DELETE para eliminar un evento existente
+    def delete(self, request, *args, **kwargs):
+        evento = get_object_or_404(Evento, id=request.GET.get("id"))
+        try:
+            evento.delete()
+            return Response({"details": "Evento eliminado correctamente"}, status=200)
+        except Exception as e:
+            return Response({"details": "Error al eliminar el evento"}, status=400)
