@@ -50,6 +50,8 @@ class EventosAll(generics.CreateAPIView):
 class EventosView(generics.CreateAPIView):
     def get(self, request, *args, **kwargs):
         return Response({"message": "GET no implementado"}, status=status.HTTP_501_NOT_IMPLEMENTED)
+    
+    
 
     @transaction.atomic
     def post(self, request, *args, **kwargs):
@@ -72,11 +74,34 @@ class EventosView(generics.CreateAPIView):
             return Response({"Eventos_created_id": nuevo_evento.id}, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def get(self, request, *args, **kwargs):
+        evento_id = request.GET.get("id")
+        if not evento_id:
+            return Response({"error": "ID no proporcionado"}, status=400)
+
+        try:
+            evento = Evento.objects.get(id=evento_id)
+            serializer = EventoSerializer(evento)
+            return Response(serializer.data, status=200)
+        except Evento.DoesNotExist:
+            return Response({"error": "Evento no encontrado"}, status=404)
 
 class EventosViewEdit(generics.CreateAPIView):
     permission_classes = (permissions.IsAuthenticated,)
 
-    # Método PUT para editar un evento existente
+    def get(self, request, *args, **kwargs):
+        evento_id = request.GET.get("id")
+        if not evento_id:
+            return Response({"error": "ID no proporcionado"}, status=400)
+
+        try:
+            evento = Evento.objects.get(id=evento_id)
+            evento_serializado = EventoSerializer(evento).data
+            return Response(evento_serializado, status=200)
+        except Evento.DoesNotExist:
+            return Response({"error": "Evento no encontrado"}, status=404)
+        
     def put(self, request, *args, **kwargs):
         evento = get_object_or_404(Evento, id=request.data["id"])
 
@@ -106,3 +131,4 @@ class EventosViewEdit(generics.CreateAPIView):
             return Response({"details": "Evento eliminado correctamente"}, status=200)
         except Exception as e:
             return Response({"details": "Error al eliminar el evento"}, status=400)
+        
