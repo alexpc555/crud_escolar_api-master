@@ -40,10 +40,7 @@ class EventosAll(generics.CreateAPIView):
 
         if not eventos_serializados:
             return Response({}, status=400)
-
-        # Si eventualmente hay campos JSON, puedes deserializarlos aquí.
-        # Por ejemplo: evento["dias_json"] = json.loads(evento["dias_json"])
-
+        
         return Response(eventos_serializados, status=200)
     
 
