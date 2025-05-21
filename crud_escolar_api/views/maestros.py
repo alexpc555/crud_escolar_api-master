@@ -134,3 +134,23 @@ class MaestrosViewEdit(generics.CreateAPIView):
             return Response({"details":"Maestro eliminado"},200)
         except Exception as e:
             return Response({"details":"Algo pasó al eliminar"},400)
+        
+
+class UsuariosNombreList(generics.CreateAPIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get(self, request, *args, **kwargs):
+        maestros = Maestros.objects.filter(user__is_active=1)
+        admins = Administradores.objects.filter(user__is_active=1)
+
+        resultado = []
+
+        for m in maestros:
+            nombre = f"{m.user.first_name} {m.user.last_name}"
+            resultado.append({"id": m.id, "nombre": nombre, "tipo": "maestro"})
+
+        for a in admins:
+            nombre = f"{a.user.first_name} {a.user.last_name}"
+            resultado.append({"id": a.id, "nombre": nombre, "tipo": "admin"})
+
+        return Response(resultado, 200)

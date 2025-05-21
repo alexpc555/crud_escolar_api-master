@@ -149,3 +149,5 @@ class AdminsViewEdit(generics.CreateAPIView):
             return Response({"details":"Administrador eliminado"},200)
         except Exception as e:
             return Response({"details":"Algo pasó al eliminar"},400)
+        
+

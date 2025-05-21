@@ -60,19 +60,19 @@ from django.db import models
 
 class Evento(models.Model):
     id = models.BigAutoField(primary_key=True)
-    titulo = models.CharField(max_length=100)
-    tipo_de_evento = models.CharField(max_length=50)
-    fecha_de_realizacion = models.DateField()
-    hora_inicio = models.TimeField()
-    hora_fin = models.TimeField()
-    lugar = models.CharField(max_length=100)
-    publico_objetivo = models.CharField(max_length=100)
-    programa_educativo = models.CharField(max_length=50)
-    responsable_del_evento = models.CharField(max_length=100)
-    descripcion_breve = models.TextField(max_length=300)
-    cupo_max = models.PositiveIntegerField()
+    titulo = models.CharField(max_length=100, null=True, blank=True)
+    tipo_de_evento = models.CharField(max_length=50, null=True, blank=True)
+    fecha_de_realizacion = models.DateField(null=True, blank=True)
+    hora_inicio = models.TimeField(null=True, blank=True)
+    hora_fin = models.TimeField(null=True, blank=True)
+    lugar = models.CharField(max_length=100, null=True, blank=True)
+    publico_objetivo = models.CharField(max_length=100, null=True, blank=True)
+    programa_educativo = models.CharField(max_length=50, null=True, blank=True)
+    responsable_del_evento = models.CharField(max_length=100, null=True, blank=True)
+    descripcion_breve = models.TextField(max_length=300, null=True, blank=True)
+    cupo_max = models.PositiveIntegerField(null=True, blank=True)
 
     def __str__(self):
-        return self.titulo
+        return self.titulo if self.titulo else "Evento sin título"
 
 
