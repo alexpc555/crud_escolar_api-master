@@ -30,18 +30,32 @@ import string
 import random
 import json
 
+from rest_framework.permissions import IsAuthenticated
 
-class EventosAll(generics.CreateAPIView):
-    permission_classes = (permissions.IsAuthenticated,)
+class EventosAll(APIView):
+    permission_classes = [IsAuthenticated]
 
-    def get(self, request, *args, **kwargs):
-        eventos = Evento.objects.all().order_by("fecha_de_realizacion")
-        eventos_serializados = EventoSerializer(eventos, many=True).data
+    def get(self, request):
+        try:
+            grupo = request.user.groups.first()
+            rol = grupo.name.lower() if grupo else 'ninguno'
+            print("ROL DETECTADO:", rol)
 
-        if not eventos_serializados:
-            return Response({}, status=400)
-        
-        return Response(eventos_serializados, status=200)
+            if rol == 'alumno':
+                eventos = Evento.objects.filter(publico_objetivo__icontains='estudiante')
+            elif rol == 'maestro':
+                eventos = Evento.objects.filter(publico_objetivo__icontains='profesor')
+            elif rol == 'administrador':
+                eventos = Evento.objects.all()
+            else:
+                eventos = Evento.objects.none()
+
+            serializer = EventoSerializer(eventos, many=True)
+            return Response(serializer.data)
+
+        except Exception as e:
+            print("ERROR:", str(e))
+            return Response({"error": str(e)}, status=500)
     
 
 class EventosView(generics.CreateAPIView):
@@ -66,7 +80,7 @@ class EventosView(generics.CreateAPIView):
                 responsable_del_evento=request.data['responsable_del_evento'],
                 descripcion_breve=request.data['descripcion_breve'],
                 cupo_max=request.data['cupo_max'],
-                #dias_json=json.dumps(request.data.get("dias_json", []))
+
             )
             return Response({"Eventos_created_id": nuevo_evento.id}, status=status.HTTP_201_CREATED)
 
